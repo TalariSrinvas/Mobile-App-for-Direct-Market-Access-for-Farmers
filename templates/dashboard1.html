@@ -274,7 +274,7 @@
 
                 <div class="nav__icons">
                     <i class="ri-search-line"></i>
-                    <button class="add-product-btn" onclick="window.location.href='/add'">Add</button>
+                    <button class="add-product-btn" onclick="window.location.href='/add'">Buy</button>
                     <button class="add-product-btn">Logout</button>
                     <i class="ri-menu-line nav__toggle" id="nav-toggle"></i>
                 </div>
@@ -284,12 +284,12 @@
     <div class="dashboard">
         <div class="main-content">
 
-            <h2>Farmer Dashboard</h2>
+            <h2>Buyer Dashboard</h2>
             <section class="stats">
                 <div class="card">
                     <h3>Orders</h3>
                     <p>{{ordered}}</p>
-                    <button class="add-product-btn" onclick="window.location.href='/view'">View</button>
+                    <button class="add-product-btn">View</button>
                 </div>
                 <div class="card">
                     <h3>Accepted</h3>
@@ -297,22 +297,22 @@
                     <button class="add-product-btn">View</button>
                 </div>
                 <div class="card">
-                    <h3>Delivered</h3>
+                    <h3>Recieved</h3>
                     <p>{{delivered}}</p>
                     <button class="add-product-btn">View</button>
                 </div>
             </section>
 
             <section class="products">
-                <h3>Your Products</h3>
+                <h3>Order You Placed</h3>
                 <div class="product-grid">
                     {% for p in products %}
                     <div class="product-card">
-                        <img src="{{p['url']}}" alt="Product Image">
-            
-                        <h4>{{ p['fname'] }}</h4>
-                        <h4>{{ p['quantity'] }}.kg</h4>
-                        <h4>Rs.{{ p['price'] }}</h4> 
+                        <img src="{{p['img']}}" alt="Product Image">
+                        <h4>{{ p['name'] }}.kg</h4>
+                        <h4>{{ p['qt'] }}.kg</h4>
+                        <h4>Rs.{{ p['pri'] }}</h4> 
+                        
                         <button class="add-product-btn">View</button>
 
 

@@ -71,14 +71,19 @@ h2 {
                 -webkit-background-clip: text;
                 color: transparent;
 }
+    .login-container img {
+        width: 40%;
+        margin-bottom: 20px;
+    }
 </style>
 </head>
 <body>
 <div class="login-container">
-    <h2 class="gradient-text">Login</h2>
+    <h2 class="gradient-text">Buyer Login</h2>
     {% if error %}
     <p class="error">{{ error }}</p>
     {% endif %}
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd4mMiaPELqJC5y-9nuQ5O2XyTj4iKH9V6FQ&s" alt="Buyer">
     <form action="/check_user" method="post">
         <input type="text" name="uid" id="uid" class="input-field" placeholder="Username" required>
         <input type="password" name="pwd" id="pwd" class="input-field" placeholder="Password" required>

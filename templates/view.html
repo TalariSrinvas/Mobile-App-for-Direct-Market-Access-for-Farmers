@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CropCart | Empowering Farmers</title>
+  <title>Responsive Navbar with Product Section</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
   <style>
-    /* Reusing styles from original code */
+    /* Basic Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Roboto', sans-serif; line-height: 1.6; background-color: #f9f9f9; color: #333; }
-    .container { max-width: 1100px; margin: auto; padding: 0 1rem; }
+    body { font-family: 'Roboto', sans-serif; line-height: 1.6; }
 
     /* Navbar Styles */
     .header { 
@@ -21,6 +20,7 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
       z-index: 100; 
     }
+    .container { max-width: 1100px; margin: auto; padding: 0 1rem; }
     .nav { 
       display: flex; 
       justify-content: space-between; 
@@ -74,6 +74,8 @@
       font-size: 1.5rem; 
       cursor: pointer; 
     }
+
+    /* Responsive Navbar */
     @media (max-width: 768px) {
       .nav__list { 
         position: fixed; 
@@ -91,96 +93,53 @@
       .nav__toggle { display: block; color: #333; z-index: 102; }
     }
 
-    /* Hero Section */
-    .hero {
-      height: 80vh;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                  url('https://source.unsplash.com/1600x900/?farm,fields') center/cover no-repeat;
-      color: white;
+    /* Products Section */
+    .product-grid {
+      margin-top: 80px; /* Adjust for navbar height */
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+      justify-content: center; /* Centers grid */
+    }
+
+    .product-card {
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
+      justify-content: space-between;
     }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-    .hero .cta {
-      padding: 0.8rem 1.5rem;
-      background: #4FFFB0;
-      color: #fff;
-      font-size: 1rem;
-      text-transform: uppercase;
+
+    .product-card img {
+      width: 100%; 
+      height: 100px; 
+      object-fit: cover; 
       border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-    .hero .cta:hover {
-      background: #3ec99b;
+      margin-bottom: 10px;
     }
 
-    /* Features Section */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 3rem 0;
-      text-align: center;
-    }
-    .feature {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .feature i {
-      font-size: 3rem;
-      color: #4FFFB0;
-      margin-bottom: 1rem;
-    }
-    .feature h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .feature p {
-      font-size: 1rem;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 2rem;
-      background: #4FFFB0;
-      text-align: center;
+    .add-product-btn {
+      padding: 10px 20px;
+      background-color: #4FFFB0;
       color: white;
-    }
-    .cta-section h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .cta-section .cta-btn {
-      padding: 0.8rem 1.5rem;
-      background: #fff;
-      color: #4FFFB0;
-      font-size: 1rem;
-      text-transform: uppercase;
+      border: none;
       border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-    .cta-section .cta-btn:hover {
-      background: rgba(255, 255, 255, 0.9);
-    }
-    .nav__button i {
-      margin-right: 0.5rem;
-      vertical-align: middle;
+      cursor: pointer;
     }
 
+    .add-product-btn:hover {
+      background-color: #3ec99b;
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
@@ -194,13 +153,12 @@
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYf8F22QlIDXQCPWgmW2KLZXxPhA9sIU9Yw&s" alt="Logo">
         </a>
         <ul class="nav__list" id="nav-menu">
-          <li><a href="#" class="nav__link active"><i class="ri-home-line"></i> Home</a></li>
+          <li><a href="/" class="nav__link" onclick="setActive(this)"><i class="ri-home-line"></i> Home</a></li>
           <li><a href="/products" class="nav__link"><i class="ri-shopping-cart-line"></i> Products</a></li>
-          <li><a href="about" class="nav__link"><i class="ri-information-line"></i> About Us</a></li>
-          <li><a href="/service" class="nav__link"><i class="ri-service-line"></i> Services</a></li>
-          <li><a href="#" class="nav__link"><i class="ri-contacts-line"></i> Contact</a></li>
-          <li><a href="/dashboard" class="nav__link"><i class="ri-dashboard-line"></i> Dashboard</a></li>
-
+          <li><a href="/about" class="nav__link" onclick="setActive(this)"><i class="ri-information-line"></i> About Us</a></li>
+          <li><a href="/service" class="nav__link" onclick="setActive(this)"><i class="ri-service-line"></i> Services</a></li>
+          <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-contacts-line"></i> Contact</a></li>
+          <li><a href="/dashboard" class="nav__link" onclick="setActive(this)"><i class="ri-dashboard-line"></i> Dashboard</a></li>
         </ul>
         <div class="nav__icons">
           {% if not logged_in %}
@@ -217,44 +175,23 @@
           {% endif %}
           <i class="ri-menu-line nav__toggle" id="nav-toggle"></i>
         </div>
-
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Welcome to CropCart</h1>
-    <p>Your one-stop platform for connecting farmers and consumers directly.</p>
-    <a href="#products" class="cta">Explore Products</a>
-  </section>
-
-  <!-- Features Section -->
-  <section class="container">
-    <div class="features">
-      <div class="feature">
-        <i class="ri-leaf-line"></i>
-        <h3>Fresh Produce</h3>
-        <p>Buy fresh produce directly from farmers, ensuring quality and sustainability.</p>
-      </div>
-      <div class="feature">
-        <i class="ri-user-heart-line"></i>
-        <h3>Empowering Farmers</h3>
-        <p>Help farmers gain fair prices and reduce dependency on intermediaries.</p>
-      </div>
-      <div class="feature">
-        <i class="ri-earth-line"></i>
-        <h3>Eco-Friendly</h3>
-        <p>Support local agriculture and promote sustainable farming practices.</p>
-      </div>
+  <!-- Product Grid Section -->
+  <div class="product-grid">
+    {% for o in orders %}
+    <div class="product-card">
+      <!-- <img src="{{['url']}}" alt="Product Image"> -->
+      <!-- <h4>{{ o['pname'] }}</h4> -->
+      <h4>{{ o['quantity'] }} kg</h4>
+      <h4>Rs. {{ o['price'] }}</h4> 
+      
     </div>
-  </section>
+    {% endfor %}
+  </div>
 
-  <!-- Call to Action Section -->
-  <section class="cta-section">
-    <h2>Ready to Join CropCart?</h2>
-    <a href="/signup" class="cta-btn">Get Started</a>
-  </section>
   <script>
     const navMenu = document.getElementById('nav-menu');
     const navToggle = document.getElementById('nav-toggle');

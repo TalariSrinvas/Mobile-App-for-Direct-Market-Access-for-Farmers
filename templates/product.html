@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar with Farmer, Buyer, and Admin Sections</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 1rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .nav__logo {
+            font-weight: bold;
+            background: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav__logo img {
+            height: 35px;
+            margin-left: 4px;
+        }
+
+        .nav__list {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav__link {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .nav__link:hover, .nav__link.active {
+            color: #4FFFB0;
+            text-shadow: 0px 0px 8px #4FFFB0;
+        }
+
+        .nav__icons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav__button {
+            padding: 0.5rem 1rem;
+            color: #fff;
+            background-color: #4FFFB0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav__button:hover {
+            background-color: #3ec99b;
+        }
+
+        /* Login Section Styles */
+        .login-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .product-details {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-image {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+            border: none;
+        }
+
+        .farmer-details {
+            width: 100%;
+            text-align: left;
+        }
+
+        .farmer-details h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #333;
+            border-bottom: 2px solid #4FFFB0;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .quantity-order {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: center;
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quantity-input {
+            width: 250px;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .place-order-button {
+            padding: 10px 20px;
+            background-color: #4FFFB0;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .place-order-button:hover {
+            background-color: #3ec99b;
+        }
+
+        .order-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav__list {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav__button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .login-container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .product-details {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-info {
+                align-items: center;
+                text-align: center;
+            }
+
+            .quantity-order {
+                flex-direction: column;
+            }
+
+            .quantity-input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .place-order-button {
+                width: 100%;
+            }
+        }
+        .header { 
+          position: fixed; 
+          width: 100%; 
+          top: 0; 
+          background: #fff; 
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+          z-index: 100; 
+        }
+        .container { max-width: 1100px; margin: auto; padding: 0 1rem; }
+        .nav { 
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+          padding: 1rem 0; 
+        }
+        .nav__logo { 
+          font-weight: bold; 
+          background: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+          -webkit-background-clip: text;
+          color: transparent;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+        }
+        .nav__logo img { height: 35px; margin-left: 4px; }
+        .nav__list { 
+          display: flex; 
+          gap: 1.5rem; 
+          list-style: none; 
+        }
+        .nav__link { 
+          color: #333; 
+          text-decoration: none; 
+          display: flex; 
+          align-items: center; 
+          gap: 0.5rem; 
+          transition: all 0.3s; 
+        }
+        .nav__link:hover, .nav__link.active { 
+          color: #4FFFB0; 
+          text-shadow: 0px 0px 8px #4FFFB0; 
+        }
+        .nav__icons { 
+          display: flex; 
+          gap: 0.5rem; 
+          align-items: center; 
+        }
+        .nav__button { 
+          padding: 0.5rem 1rem; 
+          color: #fff; 
+          background-color: #4FFFB0; 
+          border: none; 
+          border-radius: 5px; 
+          cursor: pointer; 
+          transition: background-color 0.3s; 
+        }
+        .nav__button:hover { background-color: #3ec99b; }
+        .nav__toggle { 
+          display: none; 
+          font-size: 1.5rem; 
+          cursor: pointer; 
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+          .nav__list { 
+            position: fixed; 
+            top: 0; 
+            right: -100%;
+            flex-direction: column; 
+            background: #fff; 
+            width: 60%; 
+            height: 100vh; 
+            padding-top: 4rem; 
+            transition: right 0.3s;
+            z-index: 100;
+          }
+          .nav__list.show { right: 0; }
+          .nav__toggle { display: block; color: #333; z-index: 102; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <div class="container">
+          <nav class="nav">
+            <a href="#" class="nav__logo">
+              CropCart
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYf8F22QlIDXQCPWgmW2KLZXxPhA9sIU9Yw&s" alt="Logo">
+            </a>
+            <ul class="nav__list" id="nav-menu">
+              <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-home-line"></i> Home</a></li>
+              <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-information-line"></i> About Us</a></li>
+              <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-service-line"></i> Services</a></li>
+              <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-contacts-line"></i> Contact</a></li>
+              <li><a href="/dashboard" class="nav__link" onclick="setActive(this)"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+            </ul>
+            <div class="nav__icons">
+              <i class="ri-search-line"></i>
+              <button class="nav__button" onclick="window.location.href='/login'">Login</button>
+              <button class="nav__button" onclick="window.location.href='/SingUp'">Sign Up</button>
+              <i class="ri-menu-line nav__toggle" id="nav-toggle"></i>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+
+    <!-- Login Section -->
+    <div class="login-section">
+        <div class="login-container">
+            <div class="product-details">
+                <img src="{{pd['url']}}" alt="Product Image" class="product-image">
+                <div class="product-info">
+                    <p><b>Crop Name:</b> {{pd['pname']}}</p>
+                    <p><b>Farmer Name:</b> {{pd['fname']}}</p>
+                    <p><b>Crop Price:</b> ₹{{pd['price']}} per kg</p>
+                    <p><b>Quantity Available:</b> {{pd['quantity']}} kg</p>
+                </div>
+            </div>
+            <hr class="divider">
+            <div class="farmer-details">
+                <h3>Farmer's Details</h3>
+                <p><b>Name:</b> {{user['uname']}}</p>
+                <p><b>Email:</b> {{user['email']}}</p>
+                <p><b>Mobile No:</b> {{user['mobilno']}}</p>
+                <p><b>Address:</b> {{user['hno']}}, {{user['town']}}, {{user['dist']}}, {{user['stat']}}, {{user['nationality']}}</p>
+            </div>
+            <hr class="divider">
+            <form id="order-form" method="post">
+                <div class="order-section">
+                    <input 
+                        type="number" 
+                        name="orderQuantity" 
+                        placeholder="Enter quantity in kg" 
+                        class="quantity-input" 
+                        min="1" 
+                        max="{{pd['quantity']}}" 
+                        required 
+                    >
+                    <button type="submit" class="place-order-button">Place Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
