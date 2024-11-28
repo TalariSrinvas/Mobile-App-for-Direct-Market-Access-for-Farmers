@@ -125,16 +125,38 @@ def load_full_accepted_details(uid):
         return orders
 
 
-def load_accepted_from_db(uid):
+def load_full_delivered_details(uid):
     with engine.connect() as conn:
         result = conn.execute(
-            text(
-                "SELECT * FROM Orders WHERE status='Accepted' AND (fid=:uid OR bid=:uid)"
-            ), {"uid": uid})
-        accepted = []
+            text("""
+                SELECT 
+                    Orders.oid,
+                    Orders.quantity,
+                    Orders.price,
+                    Orders.status,
+                    Products.pname,
+                    Products.url,
+                    Products.pid,
+                    Users.uname AS buyer_name,
+                    Users.mobilno AS mobilno,
+                    Users.email AS email,
+                    Users.nationality as nationality,
+                    Users.stat as stat,
+                    Users.dist as dist,
+                    Users.town as town,
+                    Users.hno as hno
+                FROM 
+                    Orders
+                JOIN 
+                    Products ON Orders.pid = Products.pid
+                JOIN 
+                    UserD AS Users ON Orders.bid = Users.uid
+                WHERE Orders.fid= :uid AND Orders.status= 'Delivered'
+                """), {"uid": uid})
+        orders = []
         for row in result:
-            accepted.append(row._asdict())
-        return accepted
+            orders.append(row._asdict())
+        return orders
 
 
 def load_delivered_from_db(uid):
@@ -195,12 +217,24 @@ def view():
     if temp == "1":
         orders = load_full_order_details(uid)
         logged_in = "username" in session
-        return render_template('view.html', orders=orders, logged_in=logged_in)
+        return render_template('view.html',
+                               orders=orders,
+                               logged_in=logged_in,
+                               temp=temp)
     elif temp == "2":
         orders = load_full_accepted_details(uid)
         logged_in = "username" in session
-        return render_template('view.html', orders=orders, logged_in=logged_in)
-
+        return render_template('view.html',
+                               orders=orders,
+                               logged_in=logged_in,
+                               temp=temp)
+    elif temp == "3":
+        orders = load_full_delivered_details(uid)
+        logged_in = "username" in session
+        return render_template('view.html',
+                               orders=orders,
+                               logged_in=logged_in,
+                               temp=temp)
     return redirect(url_for('dashboard'))
 
 
@@ -279,8 +313,8 @@ def dashboard():
     users = load_UserD_from_db()
 
     ordered = len(load_full_order_details(uid))
-    accepted = len(load_accepted_from_db(uid))
-    delivered = len(load_delivered_from_db(uid))
+    accepted = len(load_full_accepted_details(uid))
+    delivered = len(load_full_delivered_details(uid))
 
     user = next((u for u in users if u["uname"] == username), None)
 

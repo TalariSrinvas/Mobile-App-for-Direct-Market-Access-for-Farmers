@@ -47,7 +47,7 @@
     }
 
     .product-grid {
-      margin-top: 100px;
+      margin-top: 20px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 20px;
@@ -136,8 +136,17 @@
     </nav>
   </div>
 </header>
-
+  <div class="container" style="margin-top: 100px; text-align: center;">
+    {% if temp == '1' %}
+      <h2>Orders You Got</h2>
+    {% elif temp == '2' %}
+      <h2>Orders You Accepted</h2>
+    {% else %}
+      <h2>Order Successfully Delivered</h2>
+    {% endif %}
+  </div>
 <div class="product-grid">
+  
   {% for order in orders %}
   <div class="product-card">
     <div class="product-image">
@@ -145,6 +154,7 @@
     </div>
     <div class="product-details">
       <h4>Buyer Details</h4>
+      
       <p>Name: {{ order['buyer_name'] }}</p>
       <p>Mobile No: {{ order['mobilno'] }}</p>
       <p>Email: {{ order['email'] }}</p>
