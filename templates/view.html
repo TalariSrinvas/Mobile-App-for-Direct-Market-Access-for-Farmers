@@ -7,11 +7,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
   <style>
-    /* Basic Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Roboto', sans-serif; line-height: 1.6; }
+    body { font-family: 'Roboto', sans-serif; line-height: 1.6; background-color: #f9f9f9; }
 
-    /* Navbar Styles */
     .header { 
       position: fixed; 
       width: 100%; 
@@ -20,13 +18,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
       z-index: 100; 
     }
-    .container { max-width: 1100px; margin: auto; padding: 0 1rem; }
-    .nav { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding: 1rem 0; 
-    }
+    .container { max-width: 1200px; margin: auto; padding: 0 1rem; }
+
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
     .nav__logo { 
       font-weight: bold; 
       background: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
@@ -37,174 +31,157 @@
       align-items: center;
     }
     .nav__logo img { height: 35px; margin-left: 4px; }
-    .nav__list { 
-      display: flex; 
-      gap: 1.5rem; 
-      list-style: none; 
-    }
-    .nav__link { 
-      color: #333; 
-      text-decoration: none; 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem; 
-      transition: all 0.3s; 
-    }
-    .nav__link:hover, .nav__link.active { 
-      color: #4FFFB0; 
-      text-shadow: 0px 0px 8px #4FFFB0; 
-    }
-    .nav__icons { 
-      display: flex; 
-      gap: 0.5rem; 
-      align-items: center; 
-    }
-    .nav__button { 
-      padding: 0.5rem 1rem; 
-      color: #fff; 
-      background-color: #4FFFB0; 
-      border: none; 
-      border-radius: 5px; 
-      cursor: pointer; 
-      transition: background-color 0.3s; 
-    }
-    .nav__button:hover { background-color: #3ec99b; }
-    .nav__toggle { 
-      display: none; 
-      font-size: 1.5rem; 
-      cursor: pointer; 
-    }
+    .nav__list { display: flex; gap: 1.5rem; list-style: none; }
 
-    /* Responsive Navbar */
+    .nav__link { color: #333; text-decoration: none; gap: 0.5rem; transition: all 0.3s; }
+    .nav__link:hover, .nav__link.active { color: #4FFFB0; text-shadow: 0px 0px 8px #4FFFB0; }
+
+    .nav__icons { display: flex; gap: 0.5rem; align-items: center; }
+    .nav__button { padding: 0.5rem 1rem; color: #fff; background-color: #4FFFB0; border: none; border-radius: 5px; cursor: pointer; }
+    .nav__toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
     @media (max-width: 768px) {
-      .nav__list { 
-        position: fixed; 
-        top: 0; 
-        right: -100%;
-        flex-direction: column; 
-        background: #fff; 
-        width: 60%; 
-        height: 100vh; 
-        padding-top: 4rem; 
-        transition: right 0.3s;
-        z-index: 100;
-      }
+      .nav__list { position: fixed; top: 0; right: -100%; flex-direction: column; width: 60%; height: 100vh; z-index: 100; }
       .nav__list.show { right: 0; }
-      .nav__toggle { display: block; color: #333; z-index: 102; }
+      .nav__toggle { display: block; }
     }
 
-    /* Products Section */
     .product-grid {
-      margin-top: 80px; /* Adjust for navbar height */
+      margin-top: 100px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 20px;
-      justify-content: center; /* Centers grid */
+      padding: 20px;
     }
 
     .product-card {
       background-color: white;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-image {
+      flex: 1;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-details, .buyer-details {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
+      gap: 10px;
     }
 
-    .product-card img {
-      width: 100%; 
-      height: 100px; 
-      object-fit: cover; 
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
+    h4, p { margin-bottom: 5px; }
 
-    .add-product-btn {
-      padding: 10px 20px;
+    .accept-btn {
+      padding: 12px;
       background-color: #4FFFB0;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: auto;
     }
 
-    .add-product-btn:hover {
+    .accept-btn:hover {
       background-color: #3ec99b;
     }
 
-    @media (max-width: 480px) {
-      .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    @media (max-width: 768px) {
+      .product-card {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="#" class="nav__logo">
-          CropCart
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYf8F22QlIDXQCPWgmW2KLZXxPhA9sIU9Yw&s" alt="Logo">
-        </a>
-        <ul class="nav__list" id="nav-menu">
-          <li><a href="/" class="nav__link" onclick="setActive(this)"><i class="ri-home-line"></i> Home</a></li>
-          <li><a href="/products" class="nav__link"><i class="ri-shopping-cart-line"></i> Products</a></li>
-          <li><a href="/about" class="nav__link" onclick="setActive(this)"><i class="ri-information-line"></i> About Us</a></li>
-          <li><a href="/service" class="nav__link" onclick="setActive(this)"><i class="ri-service-line"></i> Services</a></li>
-          <li><a href="#" class="nav__link" onclick="setActive(this)"><i class="ri-contacts-line"></i> Contact</a></li>
-          <li><a href="/dashboard" class="nav__link" onclick="setActive(this)"><i class="ri-dashboard-line"></i> Dashboard</a></li>
-        </ul>
-        <div class="nav__icons">
-          {% if not logged_in %}
-            <button class="nav__button" onclick="window.location.href='/login'">Login</button>
-            <button class="nav__button" onclick="window.location.href='/SingUp'"> Sign Up
-            </button>
-          {% else %}
-            <i class="ri-user-line"></i>
-
-
-            <button class="nav__button" onclick="window.location.href='/logout'">
-              <i class="ri-logout-box-line"></i> Logout
-            </button>
-          {% endif %}
-          <i class="ri-menu-line nav__toggle" id="nav-toggle"></i>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Product Grid Section -->
-  <div class="product-grid">
-    {% for o in orders %}
-    <div class="product-card">
-      <!-- <img src="{{['url']}}" alt="Product Image"> -->
-      <!-- <h4>{{ o['pname'] }}</h4> -->
-      <h4>{{ o['quantity'] }} kg</h4>
-      <h4>Rs. {{ o['price'] }}</h4> 
-      
-    </div>
-    {% endfor %}
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="#" class="nav__logo">
+        CropCart
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYf8F22QlIDXQCPWgmW2KLZXxPhA9sIU9Yw&s" alt="Logo">
+      </a>
+      <ul class="nav__list" id="nav-menu">
+        <li><a href="/" class="nav__link" onclick="setActive(this)"><i class="ri-home-line"></i> Home</a></li>
+        <li><a href="/products" class="nav__link"><i class="ri-shopping-cart-line"></i> Products</a></li>
+        <li><a href="/about" class="nav__link"><i class="ri-information-line"></i> About Us</a></li>
+        <li><a href="/service" class="nav__link"><i class="ri-service-line"></i> Services</a></li>
+        <li><a href="#" class="nav__link"><i class="ri-contacts-line"></i> Contact</a></li>
+        <li><a href="/dashboard" class="nav__link"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+      </ul>
+      <div class="nav__icons">
+        <button class="nav__button" onclick="window.location.href='/login'">Login</button>
+        <i class="ri-menu-line nav__toggle" id="nav-toggle"></i>
+      </div>
+    </nav>
   </div>
+</header>
 
-  <script>
-    const navMenu = document.getElementById('nav-menu');
-    const navToggle = document.getElementById('nav-toggle');
+<div class="product-grid">
+  {% for order in orders %}
+  <div class="product-card">
+    <div class="product-image">
+      <img src="{{ order['url'] }}" alt="{{ order['pname'] }} Image">
+    </div>
+    <div class="product-details">
+      <h4>Buyer Details</h4>
+      <p>Name: {{ order['buyer_name'] }}</p>
+      <p>Mobile No: {{ order['mobilno'] }}</p>
+      <p>Email: {{ order['email'] }}</p>
+      <p>Address:{{ order['nationality'] }},{{ order['stat'] }},{{ order['dist'] }},{{ order['town'] }},{{ order['hno'] }}</p>
+    </div>
+    <div class="buyer-details">
+      <h4>Order details</h4>
+      
+      <p>Product: {{ order['pname'] }}</p>
+      <p>Quantity: {{ order['quantity'] }} kg</p>
+      <p>Price: Rs. {{ order['price'] }}</p>
+      
+      
+      <form action="{{ url_for('accept') }}" method="POST" style="display: inline;">
+        <input type="hidden" name="oid" value="{{ order['oid'] }}">
+        <button type="submit" class="accept-btn">Accept Order</button>
+      </form>
 
-    navToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
-    });
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-    function setActive(link) {
-      const links = document.querySelectorAll('.nav__link');
-      links.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-    }
-  </script>
+<script>
+  const navMenu = document.getElementById('nav-menu');
+  const navToggle = document.getElementById('nav-toggle');
+
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+  });
+
+  function setActive(link) {
+    const links = document.querySelectorAll('.nav__link');
+    links.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  }
+</script>
+
 </body>
 </html>

@@ -2,7 +2,7 @@ from os import pathconf_names
 from flask import Flask, request, render_template, redirect, url_for, session
 from database import engine
 from sqlalchemy.sql import text
-from database import add_product_to_db, add_orders_to_db
+from database import add_product_to_db, add_orders_to_db, accept_order
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -66,6 +66,40 @@ def load_ordered_from_db(uid):
         for row in result:
             ordered.append(row._asdict())
         return ordered
+
+
+def load_full_order_details(uid):
+    with engine.connect() as conn:
+        result = conn.execute(
+            text("""
+                SELECT 
+                    Orders.oid,
+                    Orders.quantity,
+                    Orders.price,
+                    Orders.status,
+                    Products.pname,
+                    Products.url,
+                    Products.pid,
+                    Users.uname AS buyer_name,
+                    Users.mobilno AS mobilno,
+                    Users.email AS email,
+                    Users.nationality as nationality,
+                    Users.stat as stat,
+                    Users.dist as dist,
+                    Users.town as town,
+                    Users.hno as hno
+                FROM 
+                    Orders
+                JOIN 
+                    Products ON Orders.pid = Products.pid
+                JOIN 
+                    UserD AS Users ON Orders.bid = Users.uid
+                WHERE Orders.fid= :uid AND Orders.status= 'Ordered'
+                """), {"uid": uid})
+        orders = []
+        for row in result:
+            orders.append(row._asdict())
+        return orders
 
 
 def load_accepted_from_db(uid):
@@ -133,11 +167,9 @@ def service():
 @app.route("/view")
 def view():
     uid = session['uid']
-    orders= load_ordered_from_db(uid)
-    products = load_products_from_db()
-    users=load_UserD_from_db()
+    orders = load_full_order_details(uid)  # Fetch complete order data
     logged_in = "username" in session
-    return render_template('view.html', orders=orders, products=products, users=users, logged_in=logged_in)
+    return render_template('view.html', orders=orders, logged_in=logged_in)
 
 
 @app.route("/products")
@@ -160,6 +192,13 @@ def Add():
     username = session["username"]
     uid = session["uid"]
     add_product_to_db(data, username, uid)
+    return redirect(url_for('dashboard'))
+
+
+@app.route("/accept", methods=["POST"])
+def accept():
+    oid = request.form.get('oid')
+    accept_order(oid)
     return redirect(url_for('dashboard'))
 
 
@@ -207,7 +246,7 @@ def dashboard():
     uid = session["uid"]
     users = load_UserD_from_db()
 
-    ordered = len(load_ordered_from_db(uid))
+    ordered = len(load_full_order_details(uid))
     accepted = len(load_accepted_from_db(uid))
     delivered = len(load_delivered_from_db(uid))
 

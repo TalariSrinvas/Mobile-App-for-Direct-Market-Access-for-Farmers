@@ -5,6 +5,14 @@ engine = create_engine(
 )
 
 
+def accept_order(oid):
+    with engine.connect() as conn:
+        conn.execute(
+            text("UPDATE orders SET status='Accepted' WHERE oid=:oid"),
+            {"oid": oid})
+        conn.commit()
+
+
 def add_product_to_db(data, username, uid):
 
     with engine.connect() as conn:
@@ -24,12 +32,13 @@ def add_product_to_db(data, username, uid):
             },
         )
         conn.commit()
+
+
 def add_orders_to_db(fid, pid, bid, quantity, total_price):
     with engine.begin() as conn:  # Transactional connection
         query = text(
             "INSERT INTO Orders(fid, pid, bid, quantity, price, status) "
-            "VALUES(:fid, :pid, :bid, :quantity, :price, 'Ordered')"
-        )
+            "VALUES(:fid, :pid, :bid, :quantity, :price, 'Ordered')")
         conn.execute(
             query,
             {
