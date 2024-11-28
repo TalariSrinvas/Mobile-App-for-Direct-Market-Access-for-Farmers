@@ -57,17 +57,6 @@ def load_UserD_from_db():
         return users
 
 
-def load_ordered_from_db(uid):
-    with engine.connect() as conn:
-        result = conn.execute(
-            text("SELECT * FROM Orders WHERE status='Ordered' AND fid=:uid"),
-            {"uid": uid})
-        ordered = []
-        for row in result:
-            ordered.append(row._asdict())
-        return ordered
-
-
 def load_full_order_details(uid):
     with engine.connect() as conn:
         result = conn.execute(
@@ -95,6 +84,40 @@ def load_full_order_details(uid):
                 JOIN 
                     UserD AS Users ON Orders.bid = Users.uid
                 WHERE Orders.fid= :uid AND Orders.status= 'Ordered'
+                """), {"uid": uid})
+        orders = []
+        for row in result:
+            orders.append(row._asdict())
+        return orders
+
+
+def load_full_accepted_details(uid):
+    with engine.connect() as conn:
+        result = conn.execute(
+            text("""
+                SELECT 
+                    Orders.oid,
+                    Orders.quantity,
+                    Orders.price,
+                    Orders.status,
+                    Products.pname,
+                    Products.url,
+                    Products.pid,
+                    Users.uname AS buyer_name,
+                    Users.mobilno AS mobilno,
+                    Users.email AS email,
+                    Users.nationality as nationality,
+                    Users.stat as stat,
+                    Users.dist as dist,
+                    Users.town as town,
+                    Users.hno as hno
+                FROM 
+                    Orders
+                JOIN 
+                    Products ON Orders.pid = Products.pid
+                JOIN 
+                    UserD AS Users ON Orders.bid = Users.uid
+                WHERE Orders.fid= :uid AND Orders.status= 'Accepted'
                 """), {"uid": uid})
         orders = []
         for row in result:
@@ -166,10 +189,19 @@ def service():
 
 @app.route("/view")
 def view():
-    uid = session['uid']
-    orders = load_full_order_details(uid)  # Fetch complete order data
-    logged_in = "username" in session
-    return render_template('view.html', orders=orders, logged_in=logged_in)
+    uid = session.get('uid')
+    temp = request.args.get('temp')
+
+    if temp == "1":
+        orders = load_full_order_details(uid)
+        logged_in = "username" in session
+        return render_template('view.html', orders=orders, logged_in=logged_in)
+    elif temp == "2":
+        orders = load_full_accepted_details(uid)
+        logged_in = "username" in session
+        return render_template('view.html', orders=orders, logged_in=logged_in)
+
+    return redirect(url_for('dashboard'))
 
 
 @app.route("/products")
